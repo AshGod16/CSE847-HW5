@@ -23,7 +23,7 @@ while d > 0
   for i=1:1000
     best_k = 1;
     min_dist = 100000;
-    for j=1:K
+    for j=1:K % For each point see which cluster it belongs to based on euclidean distance.
         dist = sqrt(sum((X(i, :) - centroids(j, :)) .^ 2));
         if(dist < min_dist)
         % If the points should belong to the current cluster.
@@ -39,10 +39,13 @@ while d > 0
   new_centroids = zeros(K, 2);
   
   for i=1:K
-    points_in_cluster = X(assigned_points==i, :);
-%     display(xi);
+    points_in_cluster = X(assigned_points==i, :); % For each cluster, find all the points that were assigned to it
+
     num_of_points_in_cluster = size(points_in_cluster,1);
-    new_centroids(i, :) = (1/num_of_points_in_cluster) * [sum(points_in_cluster(:,1)) sum(points_in_cluster(:,2))];
+
+    mean_x = (1/num_of_points_in_cluster) * sum(points_in_cluster(:,1)); % Find the new coordinates for the cluster by computing the mean of x and y coordinates.
+    mean_y = (1/num_of_points_in_cluster) * sum(points_in_cluster(:,2));
+    new_centroids(i, :) = [mean_x mean_y];
   end
 
 %   display(new_centroids);
